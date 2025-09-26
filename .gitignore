@@ -1,2 +1,4 @@
 sat-2002-beta/
 .vscode/
+cnf_output.cnf
+*.exe

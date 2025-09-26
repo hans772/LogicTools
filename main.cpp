@@ -53,13 +53,13 @@ int main()
 
     // Q4 CALCULATING THE HEIGHT OF THE GIVEN PARSE TREE
 
-    std::cout << pt.calculate_height() << std::endl;
-    std::cout << ppt.calculate_height() << std::endl;
+    std::cout << "Height of infix tree is: " << pt.calculate_height() << std::endl;
+    std::cout << "Height of prefix tree is: " << ppt.calculate_height() << std::endl;
 
     // Q5 CALCULATING THE TRUTH VALUE OF THE GIVEN PARSE TREE
 
     pt.set_atoms();
-    std::cout << pt.calculate() << '\n';
+    std::cout << "For the given truth values, the function evaluates to: " << (pt.calculate() ? "True" : "False") << '\n';
 
     // Q6 CREATING CNF TREE FROM EXISTING TREE
 
@@ -95,7 +95,7 @@ int main()
     // Q7 CHECKING SATISFIABILITY OF CNF
 
     std::cout << "The given Expression is: " << (check_satisfiability("cnf_output.cnf") ? "Satisfiable" : "Not Satisfiable") << std::endl;
-    std::wcout << L"Program Ended Successfully";
+    std::wcout << L"Program Ended Successfully\n";
 
     SetConsoleOutputCP(CP_UTF8);
     _setmode(_fileno(stdout), _O_U16TEXT);
