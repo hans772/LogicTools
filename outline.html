@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>README Viewer</title>
+    <style>
+        :root {
+            --bg-color: #18222d;
+            --container-bg: #0b131c;
+            --text-color: #cfcfcf;
+            --border-color: #000000;
+            --link-color: #536f8c;
+            --code-bg: #000000;
+            --quote-border: #939393;
+            --code-color: #11490f;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: var(--container-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        /* --- Styles for Rendered HTML --- */
+
+        h1, h2, h3 {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.4em;
+            margin-top: 28px;
+            margin-bottom: 18px;
+        }
+        
+        h1 { font-size: 2.2em; }
+        h2 { font-size: 1.7em; }
+        h3 { font-size: 1.3em; }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        blockquote {
+            border-left: 5px solid var(--quote-border);
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        code {
+            background-color: var(--code-bg);
+            padding: 0.2em 0.5em;
+            border-radius: 4px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 0.9em;
+            color: --code-color
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        pre code {
+             padding: 0;
+             background-color: transparent;
+             font-size: 1em; /* Reset font size for code blocks */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 10px 14px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--bg-color);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <pre id="markdown-content" style="display: none;">
+        `
+# Logical Expression Parser and SAT Solver
+
+This C++ project provides a robust toolkit for parsing, manipulating, and evaluating propositional logic expressions. It constructs a binary parse tree from an infix or prefix expression, allowing for various transformations and analyses, including conversion to Conjunctive Normal Form (CNF) and checking for satisfiability.
+
+## Features
+
+-   **Expression Parsing**: Parses fully parenthesized logical expressions in infix notation and space-separated expressions in prefix (Polish) notation.
+-   **Binary Parse Tree**: Constructs an in-memory binary parse tree representation of the logical expression.
+-   **Notation Conversion**:
+    -   Converts an infix expression to its prefix equivalent.
+    -   Reconstructs an infix expression from the parse tree.
+-   **Tree Analysis**:
+    -   Calculates the height of the parse tree.
+    -   Evaluates the truth value of the expression given user-defined values for atomic variables.
+-   **Logical Transformations**:
+    -   **Implication-Free (IMPL\_FREE)**: Eliminates implication operators (`>`) by rewriting `A > B` as `~A + B`.
+    -   **Negation Normal Form (NNF)**: Moves negation operators (`~`) inwards so they only apply to atomic variables.
+    -   **Conjunctive Normal Form (CNF)**: Converts the expression into a conjunction of disjunctions. *Note: This can lead to an exponential increase in the size of the expression.*
+-   **DIMACS CNF Output**: Generates a standard `.cnf` file in DIMACS format from the CNF representation of the input expression.
+-   **SAT Solver**: Includes a basic brute-force SAT solver to check the satisfiability of the generated CNF file.
+-   **Tree Visualization**: Prints a formatted, human-readable representation of the parse tree to the console (requires a Windows environment).
+
+## Operators and Notation
+
+The parser recognizes the following operators with the precedence `+` < `*` < `>`:
+
+| Operator | Symbol | Meaning       |
+| :------: | :----: | :------------ |
+| Negation |  `~`   | NOT           |
+| Disjunction |  `+`   | OR            |
+| Conjunction |  `*`   | AND           |
+| Implication |  `>`   | IMPLIES       |
+
+**Input Format**:
+-   **Infix**: Expressions must be **fully parenthesized**.
+    -   Example: `((A * B) > ~C)`
+-   **Prefix**: Operators and operands must be separated by spaces.
+    -   Example: `> * A B ~ C`
+
+## File Structure
+
+-   `main.cpp`: The main driver file that orchestrates the program flow. It takes user input, builds the tree, and performs all the required operations.
+-   `parse_tree.hpp`: The header file containing the declarations for the `ParseTree`, `TreeNode`, and `Atom` classes, along with helper function prototypes.
+-   `parse_tree.cpp`: The implementation file containing the logic for parsing, tree manipulation, transformations, and the SAT solver.
+-   `cnf_output.cnf`: The output file generated by the program, containing the CNF representation of the user's input expression in DIMACS format.
+
+## How to Compile and Run
+
+### Prerequisites
+
+-   A C++ compiler that supports C++11 or later (e.g., g++, Clang, MSVC).
+-   **Windows Environment**: The tree printing functionality (`print_tree()`) uses Windows-specific headers (`windows.h`, `io.h`). The program will compile on other systems (like Linux or macOS) if this functionality is commented out, but it is required for the default `main.cpp`.
+
+### Compilation
+
+Open a terminal or command prompt and run the following command to compile the source files:
+
+```sh
+g++ main.cpp parse_tree.cpp -o logic_parser.exe
+`
+    </pre>
+
+    <div id="html-output" class="container">
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the raw Markdown content from the hidden <pre> tag
+            // .trim() removes leading/trailing whitespace and the backticks
+            const markdownText = document.getElementById('markdown-content').textContent.trim().slice(1, -1);
+
+            // Get the target container for the output
+            const htmlOutput = document.getElementById('html-output');
+
+            // Convert Markdown to HTML using the 'marked' library and update the page
+            if (markdownText) {
+                htmlOutput.innerHTML = marked.parse(markdownText);
+            } else {
+                htmlOutput.innerHTML = '<h1>No Markdown Content Found</h1><p>Please paste your README.md content into the `markdown-content` tag in the HTML file.</p>';
+            }
+        });
+    </script>
+
+</body>
+</html>
